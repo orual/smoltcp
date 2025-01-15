@@ -212,6 +212,8 @@ impl<'a> Socket<'a> {
 
         match &mut self.queries {
             ManagedSlice::Borrowed(_) => None,
+            #[cfg(not(feature = "alloc"))]
+            ManagedSlice::Owned(_) => todo!("no alloc"),
             #[cfg(feature = "alloc")]
             ManagedSlice::Owned(queries) => {
                 queries.push(None);
